@@ -1,0 +1,6 @@
+*.pyc 
+*.con
+*.log
+ctp_3.4/
+tags
+data/
