@@ -104,9 +104,13 @@ class Controller(object):
         self._register_contract(agent)
 
     def reset(self):
+        print('in reset')
         self._reset_contracts()
+        print('in  ii reset')
         self._update_listened_contracts()
+        print('in  333 reset')
         self._last_map.reset(self._contract2agents.keys())
+        print('in  33344 reset')
 
     def check_last(self,cid,dtime,dmesc,dvolume):
         '''
@@ -203,7 +207,9 @@ class Controller(object):
         #print(contracts)
         logging.info('listened contracts:%s',str(contracts))
         for listener in self._listeners:
+            print('in  1111')
             listener.update_instruments(contracts)
+            print('in  2222 ')
 
     def _reset_contracts(self):
         self._contract2agents.clear()

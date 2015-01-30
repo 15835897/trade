@@ -64,7 +64,8 @@ class MdSpiDelegate(MdApi):
 
     def OnFrontConnected(self):
         self.logger.info('MD:front connected')
-        self.user_login(self._broker_id, self._investor_id, self._passwd)
+        #self.user_login(self._broker_id, self._investor_id, self._passwd)
+        self.user_login(self._broker_id.encode(encoding='utf-8', errors = 'strict'), self._investor_id.encode(encoding='utf-8', errors = 'strict'), self._passwd.encode(encoding='utf-8', errors = 'strict'))
 
     def user_login(self, broker_id, investor_id, passwd):
         req = ustruct.ReqUserLogin(BrokerID=broker_id, UserID=investor_id, Password=passwd)

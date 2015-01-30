@@ -24,6 +24,7 @@ class XTrader(object):
         self._env = Environ()
         self._account = Account(self._env,trader_infos)
         self._builder = CommonBuilder(self._env,triples)
+        print('build')
 
     def play(self,mduser):
         logging.info("begin xtrade play.........")
@@ -37,14 +38,24 @@ class XTrader(object):
                                  controller = controller,
                         )
             user = md_spi
-            user.Create('%s/%s' % (INFO_PATH,mduser.name))
+            path=INFO_PATH+'/'+mduser.name
+            szpath=path.encode(encoding='utf-8', errors = 'strict')
+            user.Create(szpath)
+            #user.Create('%s/%s' % (INFO_PATH,mduser.name))
+            print('path:'+path)
             controller.add_listener(md_spi)
-            user.RegisterFront(port)
+            szport=port.encode(encoding='utf-8', errors = 'strict')
+            user.RegisterFront(szport)
+            print('port:'+port)
+            #user.RegisterFront(port)
             #print('before init')
             user.Init()
             users.append(user)
+        print('111 retur')
         controller.reset()
+        print('222 retur')
         controller.start()
+        print('retur')
         return self._env,users
 
 from ..common.contract_type import ContractManager

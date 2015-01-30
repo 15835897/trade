@@ -127,7 +127,7 @@ class TraderSpiDelegate(TraderApi):
 
     def user_login(self):
         self.logger.info('TD:trader to login')
-        req = UStruct.ReqUserLogin(BrokerID=self._broker, UserID=self._investor, Password=self._passwd)
+        req = UStruct.ReqUserLogin(BrokerID=self._broker.encode(encoding='utf-8', errors = 'strict'), UserID=self._investor.encode(encoding='utf-8', errors = 'strict'), Password=self._passwd.encode(encoding='utf-8', errors = 'strict'))
         ref_id = self.inc_request_id()
         ret = self.ReqUserLogin(req, ref_id)
         self.logger.info('TD:trader to login, issued')
