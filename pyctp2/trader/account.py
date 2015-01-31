@@ -51,7 +51,7 @@ class Account(object):
         return self._stamp
 
     def initialize(self):
-        self.spi = TraderSpiDelegate(self._ports_info.broker,self._ports_info.investor,self._ports_info.passwd)
+        self.spi = TraderSpiDelegate(self._ports_info.broker.encode(encoding='utf-8', errors = 'strict'),self._ports_info.investor.encode(encoding='utf-8', errors = 'strict'),self._ports_info.passwd.encode(encoding='utf-8', errors = 'strict'))
         self.trade_queue = TradeCommandQueue(self._env,self)
         self.spi.queue = self.trade_queue
         #self.trader = TraderApi.CreateTraderApi(self.investor)

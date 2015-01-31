@@ -16,6 +16,7 @@ from ..md import ctp_md as cm
 
 #定制部分
 from ..my.ports import ZSTraders as trader_infos
+#from ..my.ports import ZSUsersC as my_ports
 from ..trader.builder import CommonBuilder
 
 
@@ -31,10 +32,10 @@ class XTrader(object):
         controller = self._env._controller
         users = []
         for port in mduser.ports:   #多路注册
-            md_spi = cm.MdSpiDelegate(name=mduser.name,
-                                 broker_id=mduser.broker,
-                                 investor_id= mduser.investor,
-                                 passwd= mduser.passwd,
+            md_spi = cm.MdSpiDelegate(name=mduser.name.encode(encoding='utf-8', errors = 'strict'),
+                                 broker_id=mduser.broker.encode(encoding='utf-8', errors = 'strict'),
+                                 investor_id= mduser.investor.encode(encoding='utf-8', errors = 'strict'),
+                                 passwd= mduser.passwd.encode(encoding='utf-8', errors = 'strict'),
                                  controller = controller,
                         )
             user = md_spi

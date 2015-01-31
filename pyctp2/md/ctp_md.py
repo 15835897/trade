@@ -64,8 +64,8 @@ class MdSpiDelegate(MdApi):
 
     def OnFrontConnected(self):
         self.logger.info('MD:front connected')
-        #self.user_login(self._broker_id, self._investor_id, self._passwd)
-        self.user_login(self._broker_id.encode(encoding='utf-8', errors = 'strict'), self._investor_id.encode(encoding='utf-8', errors = 'strict'), self._passwd.encode(encoding='utf-8', errors = 'strict'))
+        self.user_login(self._broker_id, self._investor_id, self._passwd)
+        #self.user_login(self._broker_id.encode(encoding='utf-8', errors = 'strict'), self._investor_id.encode(encoding='utf-8', errors = 'strict'), self._passwd.encode(encoding='utf-8', errors = 'strict'))
 
     def user_login(self, broker_id, investor_id, passwd):
         print("user login")
@@ -73,7 +73,8 @@ class MdSpiDelegate(MdApi):
         r=self.ReqUserLogin(req,self.inc_request_id())
 
     def OnRspUserLogin(self, userlogin, info, rid, is_last):
-        self.logger.info('MD:user login:%s,info:%s,rid:%s,is_last:%s' % (userlogin,info,rid,is_last))
+        #self.logger.info('MD:user login:%s,info:%s,rid:%s,is_last:%s' % (userlogin,info,rid,is_last))
+        self.logger.info('MD:user login:%s,info:errcode %d,%s,rid:%s,is_last:%s' % (userlogin,info.ErrorID,info.ErrorMsg.decode(encoding='gbk',errors='strict'),rid,is_last))
         logging.info(self._instruments)
         logging.info('is_last=%s,errorCheck:%s' % (is_last,self.checkErrorRspInfo(info)))
         if is_last and not self.checkErrorRspInfo(info):

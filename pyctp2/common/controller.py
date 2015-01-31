@@ -29,6 +29,7 @@ class SyncLastMap(object):
             self._last_map = dict([(cid,BaseObject(time='',msec='',volume=0)) for cid in contract_names])
 
     def check(self,cid,dtime,dmsec,dvolume):
+        #print('cid:'+cid)
         assert cid in self._last_map,'contract %s 不在 订阅的合约列表中,dtime=%s,订阅合约=%s' % (cid,dtime,self._last_map.keys())
         with self._lock:
             dlast = self._last_map[cid]
