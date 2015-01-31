@@ -68,6 +68,7 @@ class MdSpiDelegate(MdApi):
         self.user_login(self._broker_id.encode(encoding='utf-8', errors = 'strict'), self._investor_id.encode(encoding='utf-8', errors = 'strict'), self._passwd.encode(encoding='utf-8', errors = 'strict'))
 
     def user_login(self, broker_id, investor_id, passwd):
+        print("user login")
         req = ustruct.ReqUserLogin(BrokerID=broker_id, UserID=investor_id, Password=passwd)
         r=self.ReqUserLogin(req,self.inc_request_id())
 
@@ -92,8 +93,12 @@ class MdSpiDelegate(MdApi):
             增订新增合约
             退订不再监听的合约
         '''
-        instruments_new = [ instrument for instrument in cur_instruments if instrument not in self._instruments]
-        instruments_discard = [ instrument for instrument in self._instruments if instrument not in cur_instruments]
+        #instruments_new = [ instrument for instrument in cur_instruments if instrument not in self._instruments]
+        instruments_new = [ instrument.encode(encoding='utf-8', errors = 'strict') for instrument in cur_instruments if instrument not in self._instruments]
+        print("instrument_new:",instruments_new )
+        #instruments_discard = [ instrument.encode(encoding='utf-8', errors = 'strict')  for instrument in self._instruments if instrument not in cur_instruments]
+        instruments_discard = [ instrument  for instrument in self._instruments if instrument not in cur_instruments]
+        print("instrument_discard:",instruments_discard)
         self._instruments.update(instruments_new)    #set 没有 += 的运算符
         self.subscribe_market_data(instruments_new)
         self._instruments -= set(instruments_discard)

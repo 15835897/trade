@@ -51,11 +51,8 @@ class XTrader(object):
             #print('before init')
             user.Init()
             users.append(user)
-        print('111 retur')
         controller.reset()
-        print('222 retur')
         controller.start()
-        print('retur')
         return self._env,users
 
 from ..common.contract_type import ContractManager

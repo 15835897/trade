@@ -267,9 +267,9 @@ class TraderSpiDelegate(TraderApi):
 
     #获取合约保证金率
     def fetch_instrument_marginrate(self, instrument_id):
-        req = UStruct.QryInstrumentMarginRate(BrokerID=self._broker,
-                        InvestorID = self._investor,
-                        InstrumentID=instrument_id,
+        req = UStruct.QryInstrumentMarginRate(BrokerID=self._broker.encode(encoding='utf-8', errors = 'strict'),
+                        InvestorID = self._investor.encode(encoding='utf-8', errors = 'strict'),
+                        InstrumentID=instrument_id.encode(encoding='utf-8', errors = 'strict'),
                         HedgeFlag = UType.HF_Speculation
                 )
         ref_id = self.inc_request_id()
@@ -294,8 +294,9 @@ class TraderSpiDelegate(TraderApi):
 
     #查询合约信息
     def fetch_instrument(self, instrument_id):
+        print('fetch_instrument,instrument:'+instrument_id)
         req = UStruct.QryInstrument(
-                        InstrumentID=instrument_id,
+                        InstrumentID=instrument_id.encode(encoding='utf-8', errors = 'strict'),
                 )
         ref_id = self.inc_request_id()
         ret = self.ReqQryInstrument(req, self.inc_request_id())
@@ -342,7 +343,7 @@ class TraderSpiDelegate(TraderApi):
     #获取行情信息, 目的在于获取当日涨跌停价格
     def fetch_depth_market_data(self, instrument_id):
         ref_id = self.inc_request_id()
-        req = UStruct.QryDepthMarketData(InstrumentID = instrument_id)
+        req = UStruct.QryDepthMarketData(InstrumentID = instrument_id.encode(encoding='utf-8', errors = 'strict'))
         ret = self.ReqQryDepthMarketData(req, ref_id)
         logging.info('A:查询合约行情, 函数发出返回值:%s' % ret)
         return ret
