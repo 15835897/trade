@@ -112,7 +112,7 @@ class MdSpiDelegate(MdApi):
         #print('on data......\n')
         try: #须确保这里不会出啥问题
             dp = depth_market_data
-            #print('thread id:',threading.current_thread().ident,dp.InstrumentID,dp.UpdateTime,dp.UpdateMillisec,dp.TradingDay) #夜盘的TradeingDay属于次日,但updateTime未变
+            print('thread id:',threading.current_thread().ident,dp.InstrumentID,dp.UpdateTime,dp.UpdateMillisec,dp.TradingDay) #夜盘的TradeingDay属于次日,但updateTime未变
             #time.sleep(10)
             if depth_market_data.LastPrice > 999999 or depth_market_data.LastPrice < 10:
                 self.logger.warning('MD:收到的行情数据有误:%s,LastPrice=:%s' %(depth_market_data.InstrumentID,depth_market_data.LastPrice))
@@ -121,7 +121,7 @@ class MdSpiDelegate(MdApi):
                 return
             #self.logger.debug('收到行情:%s,time=%s:%s' %(depth_market_data.InstrumentID,depth_market_data.UpdateTime,depth_market_data.UpdateMillisec))
             #4print(dp.InstrumentID,dp.UpdateTime,dp.UpdateMillisec)
-            is_updated = self._controller.check_last(dp.InstrumentID,dp.UpdateTime,dp.UpdateMillisec,dp.Volume)
+            is_updated = self._controller.check_last(dp.InstrumentID.decode('utf-8'),dp.UpdateTime,dp.UpdateMillisec,dp.Volume)
             if is_updated:
                 ctick = self.market_data2tick(depth_market_data)
                 if ctick:

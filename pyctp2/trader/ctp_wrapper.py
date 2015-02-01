@@ -164,7 +164,8 @@ class TraderSpiDelegate(TraderApi):
     def query_settlement_info(self):
         #不填日期表示取上一天结算单, 并在响应函数中确认
         self.logger.info('TD:取上一日结算单信息并确认, BrokerID=%s, investorID=%s' % (self._broker, self._investor))
-        req = UStruct.QrySettlementInfo(BrokerID=self._broker, InvestorID=self._investor, TradingDay='')
+        #req = UStruct.QrySettlementInfo(BrokerID=self._broker, InvestorID=self._investor, TradingDay='')
+        req = UStruct.QrySettlementInfo(BrokerID=self._broker, InvestorID=self._investor, TradingDay=b'')
         #time.sleep(1)   #避免流控, 因为此时ticks未必已经开始动作, 故不采用macro_command_queue方式. 这里因为不再查询结算单是否已确认, 所以已经没有流控限制
         ref_id = self.inc_request_id()
         ret = self.ReqQrySettlementInfo(req, ref_id)
@@ -268,11 +269,12 @@ class TraderSpiDelegate(TraderApi):
 
     #获取合约保证金率
     def fetch_instrument_marginrate(self, instrument_id):
-        req = UStruct.QryInstrumentMarginRate(BrokerID=self._broker.encode(encoding='utf-8', errors = 'strict'),
-                        InvestorID = self._investor.encode(encoding='utf-8', errors = 'strict'),
+        req = UStruct.QryInstrumentMarginRate(BrokerID=self._broker,
+                        InvestorID = self._investor,
                         InstrumentID=instrument_id.encode(encoding='utf-8', errors = 'strict'),
                         HedgeFlag = UType.HF_Speculation
                 )
+
         ref_id = self.inc_request_id()
         ret= self.ReqQryInstrumentMarginRate(req, self.inc_request_id())
         logging.info('A:查询保证金率, 函数发出返回值:%s' % ret)

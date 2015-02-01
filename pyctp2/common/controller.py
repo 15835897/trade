@@ -26,6 +26,7 @@ class SyncLastMap(object):
 
     def reset(self,contract_names):
         with self._lock:
+            #self._last_map = dict([(cid,BaseObject(time='',msec='',volume=0)) for cid in contract_names])
             self._last_map = dict([(cid,BaseObject(time='',msec='',volume=0)) for cid in contract_names])
 
     def check(self,cid,dtime,dmsec,dvolume):
@@ -128,7 +129,8 @@ class Controller(object):
         #在ticks中添加tick.
         # 对于本类,因为是线程内操作,故也是同步的. 虽然有竞争风险(因为使用了多个接收线程, 但通过SyncLastMap能解决绝大部分问题)
         # 对于TController,因为在另一线程中通过队列操作,故已经同步了,不需要再加锁
-        self._contracts[ctick.instrument].ticks.append(ctick) #必须在这里添加, 对TController此处是已同步点
+        #print('new tick,instrument:'+ctick.instrument)
+        self._contracts[ctick.instrument.decode('utf-8')].ticks.append(ctick) #必须在这里添加, 对TController此处是已同步点
         #print(ctick.instrument,ctick.time)
         #驱动macroCommand队列
         if self._check_next(ctick):

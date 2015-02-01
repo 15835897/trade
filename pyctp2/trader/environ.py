@@ -336,7 +336,8 @@ class Environ(object):
         '''
             返回规则调整后的保证金率
         '''
-        c = self._contracts[instrument_id]
+        #print('instrument id:'+instrument_id)
+        c = self._contracts[instrument_id.decode('utf-8')]
         #print(id(c),c.name,c.long_marginrate,c.short_marginrate)
         c._long_marginrate = long_marginrate
         c._short_marginrate = short_marginrate
