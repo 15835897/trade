@@ -96,10 +96,10 @@ class MdSpiDelegate(MdApi):
         '''
         #instruments_new = [ instrument for instrument in cur_instruments if instrument not in self._instruments]
         instruments_new = [ instrument.encode(encoding='utf-8', errors = 'strict') for instrument in cur_instruments if instrument not in self._instruments]
-        print("instrument_new:",instruments_new )
+#        print("instrument_new:",instruments_new )
         #instruments_discard = [ instrument.encode(encoding='utf-8', errors = 'strict')  for instrument in self._instruments if instrument not in cur_instruments]
         instruments_discard = [ instrument  for instrument in self._instruments if instrument not in cur_instruments]
-        print("instrument_discard:",instruments_discard)
+#        print("instrument_discard:",instruments_discard)
         self._instruments.update(instruments_new)    #set 没有 += 的运算符
         self.subscribe_market_data(instruments_new)
         self._instruments -= set(instruments_discard)
@@ -109,21 +109,24 @@ class MdSpiDelegate(MdApi):
 
     def OnRtnDepthMarketData(self, depth_market_data):
         #print(depth_market_data.BidPrice1,depth_market_data.BidVolume1,depth_market_data.AskPrice1,depth_market_data.AskVolume1,depth_market_data.LastPrice,depth_market_data.Volume,depth_market_data.UpdateTime,depth_market_data.UpdateMillisec,depth_market_data.InstrumentID)
-        #print('on data......\n')
+       # print('on data......\n')
         try: #须确保这里不会出啥问题
             dp = depth_market_data
-            print('thread id:',threading.current_thread().ident,dp.InstrumentID,dp.UpdateTime,dp.UpdateMillisec,dp.TradingDay) #夜盘的TradeingDay属于次日,但updateTime未变
+            #print('thread id:',threading.current_thread().ident,dp.InstrumentID,dp.UpdateTime,dp.UpdateMillisec,dp.TradingDay) #夜盘的TradeingDay属于次日,但updateTime未变
             #time.sleep(10)
             if depth_market_data.LastPrice > 999999 or depth_market_data.LastPrice < 10:
                 self.logger.warning('MD:收到的行情数据有误:%s,LastPrice=:%s' %(depth_market_data.InstrumentID,depth_market_data.LastPrice))
             if depth_market_data.InstrumentID not in self._instruments:
                 self.logger.warning('MD:收到未订阅的行情:%s' %(depth_market_data.InstrumentID,))
                 return
-            #self.logger.debug('收到行情:%s,time=%s:%s' %(depth_market_data.InstrumentID,depth_market_data.UpdateTime,depth_market_data.UpdateMillisec))
+            self.logger.debug('收到行情:%s,time=%s:%s' %(depth_market_data.InstrumentID,depth_market_data.UpdateTime,depth_market_data.UpdateMillisec))
             #4print(dp.InstrumentID,dp.UpdateTime,dp.UpdateMillisec)
             is_updated = self._controller.check_last(dp.InstrumentID.decode('utf-8'),dp.UpdateTime,dp.UpdateMillisec,dp.Volume)
+            #print('is updated:%s'+str(is_updated))
             if is_updated:
                 ctick = self.market_data2tick(depth_market_data)
+               # print('ctick:%s',ctick)
+                #print ', '.join(['%s:%s' % item for item in ctick.__dict__.items()])
                 if ctick:
                     if ctick.date > self._cur_day:   #这样,cur_day完全由tick驱动
                         self._cur_day = ctick.date

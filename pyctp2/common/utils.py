@@ -45,7 +45,9 @@ def fcustom(func,**kwargs):
     pf = functools.partial(func,**kwargs)
     #pf.name = pf.func.func_name
     pf.paras = ','.join(['%s=%s' % item for item in pf.keywords.items()])
+    #print(pf.paras)
     pf.__name__ = '%s:%s' % (func.__name__,pf.paras)
+    #print(pf)
     return pf
 
 def func_name(func):    #取到真实函数名. 可能只适用于python2.x

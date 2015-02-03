@@ -34,11 +34,20 @@ class SyncLastMap(object):
         assert cid in self._last_map,'contract %s 不在 订阅的合约列表中,dtime=%s,订阅合约=%s' % (cid,dtime,self._last_map.keys())
         with self._lock:
             dlast = self._last_map[cid]
+            #print('dtime:%s,last time:%s',str(dtime),dlast.time)
+            #print('type dtme:%s',type(dtime))
+            #print('last dtme:%s,%s',type(dlast.time),dlast.time)
+            if dlast.time=='':
+                dlast.time=b''
+           
+            #if dvolume <= dlast.volume and (dtime.decode('utf-8') < dlast.time or (dtime == dlast.time and dmsec <= dlast.msec)):
             if dvolume <= dlast.volume and (dtime < dlast.time or (dtime == dlast.time and dmsec <= dlast.msec)):
+            #    print('dtime<last dtime')
                 #不能仅靠时间.因为夜盘存在, 而当日夜盘归属下一日,所以晚的时间在前面,白天的time反而在后面发生
                 #不仅仅依靠volume,是为了记录volume未变但是买卖盘改变的tick
                 return False
             else:
+            #    print('dtime>last dtime')
                 dlast.volume = dvolume
                 dlast.time = dtime
                 dlast.msec = dmsec
@@ -218,7 +227,7 @@ class Controller(object):
         c2as = self._contract2agents
         #print(agent.contracts)
         for contract in agent.contracts:
-            #print("contract name:",contract.name,agent.name)
+            #print("contract name:",agent.name)
             c2as.setdefault(contract.name,[]).append(agent)
             if contract not in self._contracts:
                 self._contracts[contract.name] = contract

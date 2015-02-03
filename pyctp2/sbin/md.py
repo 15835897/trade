@@ -61,6 +61,7 @@ def make_users(mdusers,contract_manager):
     return controller,users,tt
 
 def make_users2(mdusers,contract_manager):
+    logging.info('md,make_users2')
     controller = ctl.Controller()
     mdagent = save_agent.SaveAgent(contract_manager,DATA_PATH)
     controller.register_agent(mdagent)
@@ -87,6 +88,7 @@ def make_users2(mdusers,contract_manager):
 
 
 def make_users_t(mdusers,contract_manager):
+    logging.info('md,make_users_t')
     controller = ctl.Controller()
     mdagent = save_agent.TSaveAgent(contract_manager,DATA_PATH)
     mdagent.start()
@@ -113,6 +115,7 @@ def make_users_t(mdusers,contract_manager):
     return controller,users#,tt
 
 def make_users_t2(mdusers,contract_managers):
+    logging.info('md,make_users_t2')
     controller = ctl.Controller()
     mdagents = [save_agent.TSaveAgent(cmng,DATA_PATH) for cmng in contract_managers]
     for mdagent in mdagents:
@@ -140,6 +143,7 @@ def make_users_t2(mdusers,contract_managers):
     return controller,users#,tt
 
 def make_users_c(mdusers,contract_managers):
+    logging.info('md,make_users_c')
     controller = ctl.TController()
     mdagents = [save_agent.SaveAgent(cmng,DATA_PATH) for cmng in contract_managers]
     for mdagent in mdagents:

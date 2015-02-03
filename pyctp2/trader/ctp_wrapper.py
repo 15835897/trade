@@ -179,14 +179,22 @@ class TraderSpiDelegate(TraderApi):
         if(self.resp_common(pRspInfo, bIsLast, '结算单查询')>0):
             self.logger.info('结算单查询完成, 准备确认')
             try:
-                self.logger.info('TD:结算单内容:%s' % pSettlementInfo.Content)
+                content=pSettlementInfo.Content.decode('gbk')
+                #self.logger.info('TD:结算单内容:%s' % pSettlementInfo.Content)
+                self.logger.info('TD:结算单内容:%s' % content)
             except Exception as inst:
                 self.logger.warning('TD-ORQSI-A 结算单内容错误:%s' % str(inst))
             #self.trade_command_queue.on_query_settlement_info(pSettlementInfo)     #这里不是完整内容, 没必要
             self._trade_command_queue.put_command(trade_command.SETTLEMENT_CONFIRM_COMMAND)
         else:  #这里是未完成分支, 需要直接忽略
             try:
-                self.logger.info('TD:结算单接收中...:%s' % pSettlementInfo.Content)
+  #              print(type(pSettlementInfo.Content))
+
+                #if isinstance(pSettlementInfo.Content,"gbk")==True:
+                content=pSettlementInfo.Content.decode('gbk')
+
+                print(content)
+                self.logger.info('TD:结算单接收中...:%s' % content)
             except Exception as inst:
                 self.logger.warning('TD-ORQSI-B 结算单内容错误:%s' % str(inst))
 

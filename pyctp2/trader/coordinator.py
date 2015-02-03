@@ -160,6 +160,7 @@ class Coordinator(ManagedAgent,Updateable):
 
 
     def _check_last_agent(self,tday):
+        #print('_check_last_agent')
         last_group = self._last_group(tday)
         if len(last_group) == 0:    #空
             #print("last_group==[]")
@@ -167,10 +168,10 @@ class Coordinator(ManagedAgent,Updateable):
         else:
             #创建Agent
             cname = self._contracts2name(last_group)
-            #print(cname,last_group,ntd)
+            print(cname,last_group)
             if cname not in self._contracts2agent:
-                #print("cagent not in map")
                 cagent = StrategyAgent(self,last_group)
+                #print("cagent not in map,cagent:"+str(cagent))
                 #self._contracts2agent[cname] = cagent      #StrategAgent中自行register
                 self._env.controller.register_agent(cagent)
             else:

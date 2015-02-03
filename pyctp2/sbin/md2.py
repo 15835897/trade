@@ -19,21 +19,25 @@ from ..my.ports import ZSUsersC as my_ports
 def make_users(mduser,contract_managers):
     controller = ctl.TController()
     mdagents = [save_agent.SaveAgent(cmng,DATA_PATH) for cmng in contract_managers]
+    #logging.info('md2,mdagents:%s',mdagents)
     for mdagent in mdagents:
         controller.register_agent(mdagent)
     tt = ctl.Scheduler(160000,controller.day_finalize,24*60*60)
     users = []
     for port in mduser.ports:   #多路注册
-        md_spi = cm.MdSpiDelegate(name=mduser.name,
-                                 broker_id=mduser.broker,
-                                 investor_id= mduser.investor,
-                                 passwd= mduser.passwd,
+        md_spi = cm.MdSpiDelegate(name=mduser.name.encode(encoding='utf-8', errors = 'strict'),
+                                 broker_id=mduser.broker.encode(encoding='utf-8', errors = 'strict'),
+                                 investor_id= mduser.investor.encode(encoding='utf-8', errors = 'strict'),
+                                 passwd= mduser.passwd.encode(encoding='utf-8', errors = 'strict'),
                                  controller = controller,
                         )
         user = md_spi
-        user.Create('%s/%s' % (INFO_PATH,mduser.name))
+        path=INFO_PATH+'/'+mduser.name
+        szpath=path.encode(encoding='utf-8', errors = 'strict')
+        user.Create(szpath)
         controller.add_listener(md_spi)
-        user.RegisterFront(port)
+        szport=port.encode(encoding='utf-8', errors = 'strict')
+        user.RegisterFront(szport)
         #print('before init')
         user.Init()
         users.append(user)
