@@ -70,7 +70,7 @@ def play1():
                     )
 
     cm1 = ContractManager([M])
-#    cm1 = ContractManager([CM_ALL])
+    #cm1 = ContractManager([M,P,J])
     triples = [ (Coordinator,fcustom(SExampleA5,max_times_per_day=1),cm1),
             ]
     xtrader = XTrader(triples)

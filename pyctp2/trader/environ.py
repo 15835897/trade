@@ -294,10 +294,11 @@ class Environ(object):
             short_rate:空头保证金率,原始保证金率,没有意义
             没有加锁必要，即便被竞争，数据也应当一样
         '''
-        if instrument_id not in self._contracts:
+        id=instrument_id.decode('utf-8')
+        if id not in self._contracts:
             self.logger.error("收到未注册的contract的合约更新信息:%s" % instrument_id)
             return
-        c = self._contracts[instrument_id]
+        c = self._contracts[id]
         c.exchange_id = exchange_id
         c.price_tick = price_tick
         c.multiple = multiple
@@ -324,10 +325,13 @@ class Environ(object):
             更新涨跌停价格
             没有加锁必要，即便被竞争，数据也应当一样
         '''
-        if instrument_id not in self._contracts:
+        #self._contracts = dict([(c.name,c) for c in contracts])
+        id=instrument_id.decode('utf-8')
+        if id not in self._contracts:
             self.logger.error("收到未注册的contract的保证金率更新信息:%s" % instrument_id)
             return
-        c = self._contracts[instrument_id]
+        #c = self._contracts[instrument_id]
+        c = self._contracts[id]
         c.trading_day = trading_day
         c.upperlimit_price = upperlimit_price
         c.lowerlimit_price = lowerlimit_price

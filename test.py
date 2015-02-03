@@ -20,6 +20,7 @@ class MyMdApi(MdApi):
         MdApi.Create(self, os.fsencode(dir) if sys.version_info[0] >= 3 else dir)
 
     def RegisterFront(self, front):
+        print('Register')
         if isinstance(front, bytes):
             return MdApi.RegisterFront(self, front)
         for front in front:
@@ -60,8 +61,8 @@ class MyMdApi(MdApi):
         print('OnRtnDepthMarketData:', pDepthMarketData)
 
 if __name__ == '__main__':
-    mdapi = MyMdApi(b'0000', b'00000000', b'000000', [b'00000'])
-    mdapi.RegisterFront(b'tcp://000.000.000.000:0000')
+    mdapi = MyMdApi(b'1008', b'90088651', b'280012', [b'p1509'])
+    mdapi.RegisterFront(b'tcp://115.238.106.253:41213')
     mdapi.Init()
 
     try:
