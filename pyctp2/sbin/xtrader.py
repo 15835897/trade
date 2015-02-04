@@ -14,6 +14,7 @@ from ..trader.environ import Environ
 from ..trader.account import Account
 from ..md import ctp_md as cm
 from ..common.contract_type import CM_ALL
+from ..common.contract_type import CM_ZJ
 
 #定制部分
 from ..my.ports import ZSTraders as trader_infos
@@ -69,7 +70,8 @@ def play1():
                         format="%(module)s:%(funcName)s:%(lineno)d:%(asctime)s %(levelname)s %(message)s"
                     )
 
-    cm1 = ContractManager([M])
+    cm1=CM_ZJ
+    #cm1 = ContractManager([M])
     #cm1 = ContractManager([M,P,J])
     triples = [ (Coordinator,fcustom(SExampleA5,max_times_per_day=1),cm1),
             ]

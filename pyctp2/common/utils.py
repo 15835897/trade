@@ -14,6 +14,8 @@ def with_metaclass(metaclass):
         d = dict((k,v) for k,v in cls.__dict__.items() if
             not isinstance(v, GetSetDescriptorType) and
             not isinstance(v, MemberDescriptorType))
+        #print("with_metaclass:%s",cls)
+        #print("d:%s",d)
         return metaclass(cls.__name__, cls.__bases__, d)
     return decorator
 
@@ -47,7 +49,7 @@ def fcustom(func,**kwargs):
     pf.paras = ','.join(['%s=%s' % item for item in pf.keywords.items()])
     #print(pf.paras)
     pf.__name__ = '%s:%s' % (func.__name__,pf.paras)
-    #print(pf)
+#    print(pf.__dict__)
     return pf
 
 def func_name(func):    #取到真实函数名. 可能只适用于python2.x
@@ -171,6 +173,7 @@ class ArgsCached(type): #TODO:TEST, 用在ContractInfo的缓存上
         pairs = cls._match_init_args(cls,*args,**kwargs)
         #print("pairs=",pairs)
         skey = '-'.join([pairs[n] for n in cls._cached_args])
+        #print(skey)
         #print(cls._name2obj)
 
         if skey not in cls._args2obj:
@@ -182,6 +185,7 @@ class ArgsCached(type): #TODO:TEST, 用在ContractInfo的缓存上
 
     def _match_init_args(cls,*args,**kwargs):
         fspec = getargspec(cls.__init__)
+        #print(fspec)
         if fspec.defaults:
             pairs = dict(zip(fspec.args[-len(fspec.defaults):],fspec.defaults))
         else:
@@ -191,7 +195,7 @@ class ArgsCached(type): #TODO:TEST, 用在ContractInfo的缓存上
         #print(pairs,default_args,fspec.)
         #print(pairs)
         pairs.update(zip(fspec.args,args))
-        #print("set args",pairs,"spec_args:",spec_args,"args:",args)
+        #print("set args",pairs,"spec_args:",fspec.args,"args:",args)
         #print("kwargs:",kwargs)
         pairs.update(kwargs)
         #print(pairs)
