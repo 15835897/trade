@@ -193,7 +193,7 @@ class TraderSpiDelegate(TraderApi):
                 #if isinstance(pSettlementInfo.Content,"gbk")==True:
                 content=pSettlementInfo.Content.decode('gbk')
 
-                print(content)
+                #print(content)
                 self.logger.info('TD:结算单接收中...:%s' % content)
             except Exception as inst:
                 self.logger.warning('TD-ORQSI-B 结算单内容错误:%s' % str(inst))
@@ -305,7 +305,7 @@ class TraderSpiDelegate(TraderApi):
 
     #查询合约信息
     def fetch_instrument(self, instrument_id):
-        print('fetch_instrument,instrument:'+instrument_id)
+        #print('fetch_instrument,instrument:'+instrument_id)
         req = UStruct.QryInstrument(
                         InstrumentID=instrument_id.encode(encoding='utf-8', errors = 'strict'),
                 )

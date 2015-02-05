@@ -3,7 +3,7 @@
 from ..trader.ports_info import PortsInfo
 
 
-ZSBroker = "1037"
+ZSBroker = "1008"
 '''
 #ZSUserPort1 = "tcp://115.238.34.151:41213"
 ZSUserPort1 = "tcp://180.166.25.21:41205"
@@ -19,8 +19,8 @@ ZSTraderPort4 = "tcp://124.160.35.53:41205"
 
 '''
 
-ZSUserPort1 = "tcp://180.166.25.21:41213"
-ZSTraderPort1 = "tcp://180.166.25.21:41205"
+ZSUserPort1 = "tcp://115.238.106.253:41213"
+ZSTraderPort1 = "tcp://115.238.106.253:41205"
 
 ZSUserPortsA =[ZSUserPort1]
 ZSTraderPortsA = [ZSTraderPort1]

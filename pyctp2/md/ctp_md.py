@@ -83,10 +83,12 @@ class MdSpiDelegate(MdApi):
 
     def subscribe_market_data(self, instruments):
         if instruments:
+            self.logger.info("MD:subscribe_market_data:%s" % instruments)
             self.SubscribeMarketData(list(instruments))
 
     def unsubscribe_market_data(self, instruments):
         if instruments:
+            self.logger.info("MD:unsubscribe_market_data:%s" % instruments)
             self.UnSubscribeMarketData(list(instruments))
 
     def update_instruments(self,cur_instruments):
@@ -95,17 +97,22 @@ class MdSpiDelegate(MdApi):
             退订不再监听的合约
         '''
         #instruments_new = [ instrument for instrument in cur_instruments if instrument not in self._instruments]
-        instruments_new = [ instrument.encode(encoding='utf-8', errors = 'strict') for instrument in cur_instruments if instrument not in self._instruments]
-#        print("instrument_new:",instruments_new )
-        #instruments_discard = [ instrument.encode(encoding='utf-8', errors = 'strict')  for instrument in self._instruments if instrument not in cur_instruments]
-        instruments_discard = [ instrument  for instrument in self._instruments if instrument not in cur_instruments]
-#        print("instrument_discard:",instruments_discard)
+        instruments_new = [ instrument.encode(encoding='utf-8', errors = 'strict') for instrument in cur_instruments if instrument.encode(encoding='utf-8', errors = 'strict')  not in self._instruments]
+        print("instrument_new:",cur_instruments )
+        print("instrument_new:",self._instruments)
+	#instruments_discard = [ instrument.encode(encoding='utf-8', errors = 'strict')  for instrument in self._instruments if instrument not in cur_instruments]
+#        print("instrument:%s",instrument )
+#        print("cur instrument:%s",cur_instruments )
+        instruments_discard = [ instrument  for instrument in self._instruments if instrument.decode('utf-8') not in cur_instruments]
         self._instruments.update(instruments_new)    #set 没有 += 的运算符
         self.subscribe_market_data(instruments_new)
         self._instruments -= set(instruments_discard)
         self.unsubscribe_market_data(instruments_discard)
         logging.info('%s:listen to:%s' % (self._name,self._instruments))
         logging.info('%s:discard:%s' % (self._name,instruments_discard))
+        print('%s:listen to:%s' % (self._name,self._instruments))
+        print('%s:discard:%s' % (self._name,instruments_discard))
+
 
     def OnRtnDepthMarketData(self, depth_market_data):
         #print(depth_market_data.BidPrice1,depth_market_data.BidVolume1,depth_market_data.AskPrice1,depth_market_data.AskVolume1,depth_market_data.LastPrice,depth_market_data.Volume,depth_market_data.UpdateTime,depth_market_data.UpdateMillisec,depth_market_data.InstrumentID)
