@@ -132,11 +132,12 @@ class MdSpiDelegate(MdApi):
             #print('is updated:%s'+str(is_updated))
             if is_updated:
                 ctick = self.market_data2tick(depth_market_data)
-                #print ', '.join(['%s:%s' % item for item in ctick.__dict__.items()])
+               # print ', '.join(['%s:%s' % item for item in ctick.__dict__.items()])
+                #print('iiiii control ctick')
                 if ctick:
                     if ctick.date > self._cur_day:   #这样,cur_day完全由tick驱动
                         self._cur_day = ctick.date
-                    #print('control ctick')
+                   # print('control ctick')
                     self._controller.new_tick(ctick)
             else:
                 pass

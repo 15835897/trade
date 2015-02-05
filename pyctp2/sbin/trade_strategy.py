@@ -88,7 +88,7 @@ class SExampleA(BaseStrategy):
         '''
         cpositions = self._holder.get_positions_by_name(popen.contract.name)
         clen = len(cpositions)
-        #print("in calc_open_volume,clen=",clen)
+        print("in calc_open_volume,clen=",clen)
         if clen == 0:
             #print("in COV:0")
             v = int(self.available_balance // popen.contract.calc_margin(popen.direction,popen.base_price))//10
@@ -181,6 +181,7 @@ class SExampleAB(BaseStrategy):
                 基本不需要
             self.cordinator
         '''
+        print("in calc_open_volume")
         self.ntrade += 1
         ca_positions = self._holder.get_positions_by_name(instructionA.contract.name)
         cb_positions = self._holder.get_positions_by_name(instructionB.contract.name)

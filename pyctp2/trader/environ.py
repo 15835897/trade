@@ -332,14 +332,14 @@ class Environ(object):
         '''
         #self._contracts = dict([(c.name,c) for c in contracts])
         #id=instrument_id.decode('utf-8')
-        print(self._contracts)
+        #print(self._contracts)
 
         id=instrument_id
         if isinstance(instrument_id,bytes)!=isinstance(self._contracts,bytes):
             id=instrument_id.decode('utf-8')
             
 
-        print(self._contracts)
+        #print(self._contracts)
         if id not in self._contracts:
             self.logger.error("收到未注册的contract的保证金率更新信息:%s" % id)
             return

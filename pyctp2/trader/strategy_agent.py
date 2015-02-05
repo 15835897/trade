@@ -203,7 +203,7 @@ class StrategyAgent(BaseAgent):
 
     def check_open(self,ctick,*contracts):
         popens = self._strategy.check_open(ctick,*contracts)
-        #print("SA:co:",len(popens))
+        print("SA:co:",len(popens))
         if popens:
             logging.info("popens != []")
             self._strategy.calc_open_volume(*popens)
