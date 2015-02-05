@@ -98,8 +98,8 @@ class MdSpiDelegate(MdApi):
         '''
         #instruments_new = [ instrument for instrument in cur_instruments if instrument not in self._instruments]
         instruments_new = [ instrument.encode(encoding='utf-8', errors = 'strict') for instrument in cur_instruments if instrument.encode(encoding='utf-8', errors = 'strict')  not in self._instruments]
-        print("instrument_new:",cur_instruments )
-        print("instrument_new:",self._instruments)
+        #print("instrument_new:",cur_instruments )
+        #print("instrument_new:",self._instruments)
 	#instruments_discard = [ instrument.encode(encoding='utf-8', errors = 'strict')  for instrument in self._instruments if instrument not in cur_instruments]
 #        print("instrument:%s",instrument )
 #        print("cur instrument:%s",cur_instruments )
@@ -110,8 +110,8 @@ class MdSpiDelegate(MdApi):
         self.unsubscribe_market_data(instruments_discard)
         logging.info('%s:listen to:%s' % (self._name,self._instruments))
         logging.info('%s:discard:%s' % (self._name,instruments_discard))
-        print('%s:listen to:%s' % (self._name,self._instruments))
-        print('%s:discard:%s' % (self._name,instruments_discard))
+        #print('%s:listen to:%s' % (self._name,self._instruments))
+        #print('%s:discard:%s' % (self._name,instruments_discard))
 
 
     def OnRtnDepthMarketData(self, depth_market_data):
@@ -132,11 +132,11 @@ class MdSpiDelegate(MdApi):
             #print('is updated:%s'+str(is_updated))
             if is_updated:
                 ctick = self.market_data2tick(depth_market_data)
-               # print('ctick:%s',ctick)
                 #print ', '.join(['%s:%s' % item for item in ctick.__dict__.items()])
                 if ctick:
                     if ctick.date > self._cur_day:   #这样,cur_day完全由tick驱动
                         self._cur_day = ctick.date
+                    #print('control ctick')
                     self._controller.new_tick(ctick)
             else:
                 pass

@@ -247,6 +247,7 @@ class TController(Controller,threading.Thread):
         #self.nt = 0
 
     def new_tick(self,ctick):
+        #print('tcontrol new tick')
         self._queue.put(ctick)
 
     def day_finalize(self):
