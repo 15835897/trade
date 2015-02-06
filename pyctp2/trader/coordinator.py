@@ -172,13 +172,14 @@ class Coordinator(ManagedAgent,Updateable):
             #创建Agent
             cname = self._contracts2name(last_group)
             print("cname:",cname)
+            print("contract2agent:",self._contracts2agent)
             if cname not in self._contracts2agent:
                 cagent = StrategyAgent(self,last_group)
-                #print("cagent not in map,cagent:"+str(cagent))
+                print("cagent not in map,cagent:"+str(cagent))
                 #self._contracts2agent[cname] = cagent      #StrategAgent中自行register
                 self._env.controller.register_agent(cagent)
             else:
-                #print("find cagent")
+                print("find cagent")
                 cagent = self._contracts2agent[cname]
         #设定last_tick
         for contract in self.contracts:     #这里重新设置之后,没有新的行情,再次调用day_finalize时, last_group就会返回[]
@@ -428,24 +429,43 @@ class Coordinator(ManagedAgent,Updateable):
             返回符合 c.volume > volume_threshold and c.volume_per_unit >= unit_threshold2 的合约列表
                     且其中iv字段为从大到小的成交量序号, 成交量最大的合约序号为0,次之为1
         """
+        print('ctype:',ctype)
+        #import pdb
+        #pdb.set_trace()
         contracts = self._contract_manager.current_contracts_by_ctype(ctype,cday//10000,cday%10000//100,cday%100)
-        #print(ctype.name)
-        #for c in contracts: print(c.name)
+
+        #import pdb
+        #pdb.set_trace()
+        
         for contract in contracts:
-            #print(contract.name)
             #cday = contract.days[-1]
             #contract.volume = cday.last_dvolume
             #contract.volume = contract.last_tick.dvolume
-            contract.volume = contract.last_dvolume
+            try:
+                contract.volume = contract.last_dvolume
+            except: 
+                traceback.print_exc()
+     
             drange = (contract.last_drange)/contract.ctype.unit
             contract.volume_per_unit = contract.volume / drange if drange > 0 else 0
             #print(contract.name,contract.volume,drange,contract.volume_per_unit)
-        #print([(c.name,c.volume) for c in contracts])
+
+        '''        
+        import traceback
+        try:
+            for contract in contracts:
+                print(contract.last_dvolume)
+        except: 
+            traceback.print_exc()
+            #print('err:',Exception,e)
+        '''
+
         rev = [c for c in contracts if c.volume > volume_threshold and c.volume_per_unit >= unit_threshold2]
         #确定成交量序号
         srev = enumerate(sorted(rev,key=lambda c:c.volume,reverse=True))
         for iv,c in srev:
             c.iv = iv
+        print('rev:',rev)
         return rev
 
 

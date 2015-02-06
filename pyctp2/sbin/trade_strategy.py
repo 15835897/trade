@@ -132,7 +132,7 @@ class  SExampleA5(SExampleA):
 
     def _check_close(self,ctick,position,params,CA):
         if self.ntick > self.xtick + 5:
-            print("A5 close time:",ctick.time,self.ntick)
+            #print("A5 close time:",ctick.time,self.ntick)
             return SExampleA._check_close(self,ctick,position,params,CA)
 
 
@@ -253,5 +253,5 @@ class  SExampleAB5(SExampleAB):
 
     def _check_close(self,ctick,position_map,params,CA,CB):
         if self.ntick > self.xtick + 5:
-            print("---------------A5 close time:",ctick.time,self.ntick)
+            #print("---------------A5 close time:",ctick.time,self.ntick)
             return SExampleAB._check_close(self,ctick,position_map,params,CA,CB)

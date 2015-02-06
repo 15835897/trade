@@ -251,6 +251,8 @@ class ContractInfo:
 
     @property
     def last_dvolume(self):
+        print('last dvolume:',self.ticks)
+        print('last days:',self.days)
         if self.ticks:
             return self.ticks[-1].dvolume
         elif self.days:

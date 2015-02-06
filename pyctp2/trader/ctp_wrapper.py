@@ -386,12 +386,40 @@ class TraderSpiDelegate(TraderApi):
         return LONG if ctp_direction == UType.D_Buy else UType.D_Sell
 
     def xopen(self, instrument_id, direction, volume, price):
-        #print("spidelegate,xopen",instrument_id,volume,price,self)
         ref_id = self.inc_request_id()
+
+        '''
+        self.BrokerID = '' #经纪公司代码, char[11]
+        self.InvestorID = '' #投资者代码, char[13]
+        self.InstrumentID = '' #合约代码, char[31]
+        self.OrderRef = '' #报单引用, char[13]
+        self.UserID = '' #用户代码, char[16]
+        self.OrderPriceType = '' #报单价格条件, char
+        self.Direction = '' #买卖方向, char
+        self.CombOffsetFlag = '' #组合开平标志, char[5]
+        self.CombHedgeFlag = '' #组合投机套保标志, char[5]
+        self.LimitPrice = 'Price' #价格, double
+        self.VolumeTotalOriginal = 'Volume' #数量, int
+        self.TimeCondition = '' #有效期类型, char
+        self.GTDDate = 'Date' #GTD日期, char[9]
+        self.VolumeCondition = '' #成交量类型, char
+        self.MinVolume = 'Volume' #最小成交量, int
+        self.ContingentCondition = '' #触发条件, char
+        self.StopPrice = 'Price' #止损价, double
+        self.ForceCloseReason = '' #强平原因, char
+        self.IsAutoSuspend = 'Bool' #自动挂起标志, int
+        self.BusinessUnit = '' #业务单元, char[21]
+        self.RequestID = '' #请求编号, int
+        self.UserForceClose = 'Bool' #用户强评标志, int
+        self.IsSwapOrder = 'Bool' #互换单标志, int
+        '''
+
+        #print("spidelegate,xopen",str(ref_id).encode(encoding='utf-8', errors = 'strict'),self.to_ctp_direction(direction),instrument_id,volume,price,self._broker,self._investor,self)
+        print("spidelegate,xopen",str(ref_id).encode(encoding='utf-8', errors = 'strict'),UType.OF_Open,UType.HF_Speculation)
         req = UStruct.InputOrder(
-                InstrumentID = instrument_id,
+                InstrumentID = instrument_id.encode(encoding='utf-8', errors = 'strict'),
                 Direction = self.to_ctp_direction(direction),
-                OrderRef = str(ref_id),
+                OrderRef = str(ref_id).encode(encoding='utf-8', errors = 'strict'),
                 LimitPrice = price,    #有个疑问，double类型如何保证舍入舍出，在服务器端取整?
                 VolumeTotalOriginal = volume,
                 OrderPriceType = UType.OPT_LimitPrice,
