@@ -83,11 +83,13 @@ class ThreadAgent(threading.Thread):
         self._queue = queue.Queue()
 
     def run(self):
+        #print('thread agent')
         while self.is_active(): #is_active必须设定
             ctick = self._queue.get()
             self._new_tick(ctick)
 
     def new_tick(self,ctick):
+        print('new tick')
         self._queue.put(ctick)
 
     def _new_tick(self,ctick):

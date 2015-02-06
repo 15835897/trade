@@ -100,6 +100,8 @@ class Coordinator(ManagedAgent,Updateable):
         self._contracts2agent[name] = agent
 
     def _new_tick(self,ctick):
+
+       # print('coordinator new tick') #为什么只在收盘前记录? yujun
         if ctick.min1 >= 1455:       #接近收盘时才记录
             #print(self._name2contract.keys(),self._name2contract[ctick.instrument])
             self._name2contract[ctick.instrument].last_tick = ctick
@@ -159,16 +161,17 @@ class Coordinator(ManagedAgent,Updateable):
         self.env.put_sec_macro_command(check_command)
 
 
+    #为什么为0 ？ yujun
     def _check_last_agent(self,tday):
-        #print('_check_last_agent')
+        print('_check_last_agent')
         last_group = self._last_group(tday)
         if len(last_group) == 0:    #空
-            #print("last_group==[]")
+            print("last_group==[]")
             cagent = None
         else:
             #创建Agent
             cname = self._contracts2name(last_group)
-            print(cname,last_group)
+            print("cname:",cname)
             if cname not in self._contracts2agent:
                 cagent = StrategyAgent(self,last_group)
                 #print("cagent not in map,cagent:"+str(cagent))
@@ -394,8 +397,10 @@ class Coordinator(ManagedAgent,Updateable):
             这个需要子类实现
         """
         try:
-            #for c in self._contract_manager.contract_types : print(c.name)
+            #for c in self._contract_manager.contract_types : print('ctype:%s:'c.__dict__)
+            #for c in self._contract_manager.contract_types:
             last_contracts = [self._contracts_flying(ctype,trading_day)[-1] for ctype in self._contract_manager.contract_types]
+            #print('last_contracts.__dict__:%s',last_contracts.__dict__)
             return last_contracts
         except IndexError as einst:      #至少有一个ctype没有满足成交量条件的可用合约
             logging.info("至少有一个ctype没有满足成交量条件的可用合约")

@@ -3,7 +3,7 @@
 import getpass
 
 class PortsInfo(object):
-    def __init__(self, name, ports, broker, investor=""):
+    def __init__(self, name, ports, broker, investor="",pwd=""):
         """
             CTP连接信息,
             ports为port列表, 其元素为 "tcp://aaa.bbb.ccc.ddd:ppppp"形式
@@ -14,7 +14,7 @@ class PortsInfo(object):
         self.ports = ports
         self.broker = broker
         self.investor = investor
-        self.passwd = ""
+        self.passwd = pwd
 
     def input_account(self):
         self.investor = input("输入用户名:")

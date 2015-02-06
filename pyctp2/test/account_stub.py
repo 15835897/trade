@@ -32,6 +32,8 @@ class AccountStub(Account):
 
     def initialize(self,TCQ):
         self._env.register_account(self)
+
+
         self.spi = TraderSpiStub(self._ports_info.broker,self._ports_info.investor,self._ports_info.passwd)
 
         self.trade_queue = TCQ(self._env,self)

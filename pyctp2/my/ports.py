@@ -33,4 +33,4 @@ ZSTraders = PortsInfo("ZSTraderA",ZSTraderPortsA,ZSBroker)
 #ZSUsersB = PortsInfo("ZSUserB",ZSUserPortsB,ZSBroker)   #更改连接顺序
 
 #ZSUsersC = PortsInfo("ZSUserA",[ZSUserPort1,ZSUserPort4],ZSBroker)
-ZSUsersC = PortsInfo("ZSUserA",[ZSUserPort1],ZSBroker)
+ZSUsersC = PortsInfo("ZSUserA",[ZSUserPort1],ZSBroker,"90088651","280012")

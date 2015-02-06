@@ -150,11 +150,9 @@ class Controller(object):
         #print('TC:',time.time()-ctick.create_time,ctick.instrument)
         for agent in self._contract2agents.get(ctick.instrument.decode('utf-8'),EMPTY_LIST):
             try:
-                #print("new_tick arrived:",ctick.instrument,ctick.time)
-               # print(agent.__dict__)
-                #print(repr(agent))
-               # import pdb
-               # pdb.set_trace()
+                print("new_tick arrived:",ctick.instrument,ctick.time)
+                #print(agent.__dict__)
+                print(repr(agent))
                 agent.new_tick(ctick)
                 #print("new_tick handled:",ctick.instrument,ctick.time,agent.name)
             except Exception as einst:
@@ -235,7 +233,6 @@ class Controller(object):
         #    print("contract name:",contract.name )
             c2as.setdefault(contract.name,[]).append(agent)
             if contract not in self._contracts:
-                #print("contract name:",contract.name )
                 self._contracts[contract.name] = contract
         #print(c2as)
 
