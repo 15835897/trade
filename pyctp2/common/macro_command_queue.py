@@ -108,6 +108,7 @@ class BaseMacroCommandQueue(object):
         #print(len(self._cqueue),type(command))
         #heappush(self._cqueue,(command.trigger_time,command))   #这样的比较速度最快
         heappush(self._cqueue,command)
+        #print(len(self._cqueue),type(command))
         self._lock.release()
 
     def trigger(self,xtime=0):
@@ -132,6 +133,7 @@ class BaseMacroCommandQueue(object):
                 self._lock.acquire()
                 #cur = heappop(self._cqueue)[1]
                 cur = heappop(self._cqueue)
+                #print("heappop:%s"+str(len(self._cqueue)),type(cur))
                 self._lock.release()
                 if id(cur) == id(TERMINAL_COMMAND):
                     is_terminated = True

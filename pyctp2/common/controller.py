@@ -147,10 +147,10 @@ class Controller(object):
             self._mc_queue.trigger(ctick.time)
             #print("after trigger mc_queue")
         ##驱动数据处理
-        #print('TC:',time.time()-ctick.create_time)
-        for agent in self._contract2agents.get(ctick.instrument,EMPTY_LIST):
+        #print('TC:',time.time()-ctick.create_time,ctick.instrument)
+        for agent in self._contract2agents.get(ctick.instrument.decode('utf-8'),EMPTY_LIST):
             try:
-                #print("new_tick arrived:",ctick.instrument,ctick.time,agent.name)
+                #print("new_tick arrived:",ctick.instrument,ctick.time)
                 agent.new_tick(ctick)
                 #print("new_tick handled:",ctick.instrument,ctick.time,agent.name)
             except Exception as einst:
@@ -224,10 +224,11 @@ class Controller(object):
             self._register_contract(agent)
 
     def _register_contract(self,agent):
+        #print("register agent name:",agent)
         c2as = self._contract2agents
-        #print(agent.contracts)
+        print(agent)
         for contract in agent.contracts:
-            #print("contract name:",agent.name)
+        #    print("contract name:",contract.name )
             c2as.setdefault(contract.name,[]).append(agent)
             if contract not in self._contracts:
                 self._contracts[contract.name] = contract
